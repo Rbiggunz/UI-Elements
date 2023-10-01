@@ -1,0 +1,104 @@
+<?php
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Maintenance</title>
+    <style>
+        /* Center the text vertically and horizontally */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f8f8; /* Set your desired background color */
+        }
+        
+        /* Style the maintenance message container */
+        .maintenance-container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        /* Style the maintenance message text */
+        .maintenance-message {
+            font-size: 24px;
+            color: #333; /* Set your desired text color */
+            margin-bottom: 20px;
+        }
+
+        /* Style the countdown text */
+        .countdown-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #555; /* Set your desired text color */
+        }
+
+        /* Style the countdown timer */
+        .countdown {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff5733; /* Set your desired timer color */
+        }
+    </style>
+</head>
+<body>
+    <div class="maintenance-container">
+        <h1 class="maintenance-message">Website Under Maintenance</h1>
+         <p>Thank you for visiting <strong>TerraTravel</strong> website.</p>
+        <p class="countdown-text">We will be back online in:</p>
+        <p class="countdown" id="countdown"></p>
+    </div>
+
+    <script>
+        // Calculate the target time for 2:00 AM London time
+        const now = new Date();
+        const targetTime = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate(),
+            2, // 2 AM
+            0, // 0 minutes
+            0, // 0 seconds
+            0  // 0 milliseconds
+        );
+
+        // If the target time is earlier than the current time, set it to tomorrow
+        if (now > targetTime) {
+            targetTime.setDate(targetTime.getDate() + 1);
+        }
+
+        // Update the countdown every second
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        function updateCountdown() {
+            const currentTime = new Date().getTime();
+            const timeRemaining = targetTime - currentTime;
+
+            if (timeRemaining <= 0) {
+                // If the target time has passed, display a message
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").textContent = "Maintenance completed!";
+            } else {
+                // Calculate hours, minutes, and seconds
+                const hours = Math.floor(timeRemaining / (60 * 60 * 1000));
+                const minutes = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
+                const seconds = Math.floor((timeRemaining % (60 * 1000)) / 1000);
+
+                // Display the countdown
+                document.getElementById("countdown").textContent = `${hours}h ${minutes}m ${seconds}s`;
+            }
+        }
+
+        // Call updateCountdown once immediately to prevent initial delay
+        updateCountdown();
+    </script>
+</body>
+</html>
